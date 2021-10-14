@@ -3,9 +3,6 @@ from loguru import logger
 import logging
 import click
 
-kLOGLEVEL = 25
-
-
 class __loguruFlaskHandler(logging.Handler):
     def emit(self, record):
         # Retrieve context where the logging call occurred, this happens to be in the 6th frame upward
@@ -31,12 +28,12 @@ def setupLogger(logfilePath='logs/events.log',
 
     logger.remove()
 
-    # logger.add(sys.stdout, format=termFormat, level=kLOGLEVEL)
-    logger.add(sys.stderr, format=termFormat, level=kLOGLEVEL)
+    # logger.add(sys.stdout, format=termFormat, level=level)
+    logger.add(sys.stderr, format=termFormat, level=level)
 
     logger.add(
         logfilePath,
-        level=kLOGLEVEL,
+        level=level,
         format=fileFormat,
         backtrace=False,
         rotation='1 MB',
@@ -47,6 +44,6 @@ def setupLogger(logfilePath='logs/events.log',
         logger.level("FLASK", 11, color="<fg 252><bold>")
         logger.level("FLASK_ERR", 41, color="<red><bold>")
         flaskApp.logger.addHandler(__loguruFlaskHandler())
-        logging.basicConfig(handlers=[__loguruFlaskHandler()], level=kLOGLEVEL)
+        logging.basicConfig(handlers=[__loguruFlaskHandler()], level=level)
 
     return logger
